@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Filmler</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css"
+      integrity="sha512-D1liES3uvDpPrgk7vXR/hR/sukGn7EtDWEyvpdLsyalQYq6v6YUsTUJmku7B4rcuQ21rf0UTksw2i/2Pdjbd3g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link rel="stylesheet" href="{% static 'style.css' %}">
+   
+   {% block head %}
+      
+   {% endblock head %}
+   <style>
+      .text-bg-error{
+         background-color: rgb(207, 54, 54);
+         color: #eee;
+      }
+   </style>
+</head>
+<body>
+   
+      
+   <div class="position-fixed bottom-0 end-0 m-5" style="z-index: 100;">
+      
+      {% for i in messages %}
+      <div class="toast align-items-center text-bg-{{ i.tags }} border-0 show fade my-2" role="alert" aria-live="assertive" aria-atomic="true">
+         <div class="d-flex">
+            <div class="toast-body">
+               {{ i }}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+               aria-label="Close"></button>
+         </div>
+      </div>
+      {% endfor %}
+         
+   </div>
+   
+   {% block nonheader %}
+      {% include 'partials/_navbar.html' %}
+   {% endblock nonheader %}
+      
+   
+   {% block body %}
+   
+   {% endblock body %}
+   
+   {% include 'partials/_footer.html' %}
+   
+   
+
+   <!-- JavaScript Bundle with Popper -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>
