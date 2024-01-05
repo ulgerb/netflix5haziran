@@ -38,3 +38,13 @@ class Userinfo(models.Model):
    
    def __str__(self) -> str:
       return self.user.username
+   
+   
+class Usermy(models.Model):
+   user = models.OneToOneField(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
+   tel = models.CharField(("Telefon"), max_length=50, default="-")
+   address = models.TextField(("Adres"), default="-", blank=True)
+   packed = models.ForeignKey(Packed, verbose_name=("Pakedi"), on_delete=models.CASCADE, default=0)
+   
+   def __str__(self) -> str:
+      return self.user.username

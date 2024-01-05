@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from appUser.models import *
 
+def passwordCheck(request, password):
+   if len(password)>6:
+      for i in password:
+         pass
+         return True
+   else:
+      messages.error(request,"asd")
+      return False
+
+
 def profilePage(request):
    # ==================================
 
@@ -59,10 +69,61 @@ def profileBrowse(request, pid):
 
 def hesapPage(request):
    profile = Profile.objects.get(user=request.user, islogin=True)
+
+   if request.method == "POST":
+      
+      submit = request.POST.get("submit")
+      if submit == "emailSubmit":
+         email = request.POST.get("email")
+         password = request.POST.get("password")
+         if email and password:
+            # if email.strip(" ") and password.strip(" "):
+            if request.user.check_password(password):
+               request.user.email = email
+               request.user.save()
+               messages.success(request, "Emailiniz Başarıyla Değiştirildi..")
+               logout(request)
+               return redirect('loginPage')
+            else:
+               messages.error(request, "Şifre Yanlış!")
+               
+            
+      elif submit == "passwordSubmit":
+         password = request.POST.get("password")
+         password1 = request.POST.get("password1")
+         password2 = request.POST.get("password2")
+         if password and password1 and password2:
+            if request.user.check_password(password):
+               if password1 == password2:
+                  # if passwordCheck(request, password1):
+                  request.user.set_password(password1)
+                  request.user.save()
+                  messages.success(request, "Şifreniz Başarıyla Değiştirildi..")
+                  logout(request)
+                  return redirect('loginPage')
+            else:
+               messages.error(request, "Şifre Yanlış!")
+         
+      elif submit == "telSubmit":
+         tel = request.POST.get("tel")
+         password = request.POST.get("password")
+         if tel and password:
+            if request.user.check_password(password):
+               request.user.usermy.tel = tel
+               request.user.usermy.save()
+               messages.success(request, "Telefonunuz Başarıyla Değiştirildi..")
+               logout(request)
+               return redirect('loginPage')
+            else:
+               messages.error(request, "Şifre Yanlış!")
+      return redirect('hesapPage')
+      
    context = {
-      "profile":profile
+      "profile":profile,
    }
    return render(request, 'hesap.html', context)
+
+
 
 def videoPage(request):
    context = {}
