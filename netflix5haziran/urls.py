@@ -23,6 +23,11 @@ from appUser.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # email
+    path('emailsend', emailSendPage, name='emailSendPage'),
+    path('emailactive/<elink>', emailActive, name='emailActive'),
+
+    
     path('', indexPage, name='indexPage'),
     path('browsePage/<pid>', browsePage, name='browsePage'),
     path('browsePage', browsePage, name='browsePage2'),
@@ -34,4 +39,5 @@ urlpatterns = [
     # USER
     path('loginPage', loginPage, name='loginPage'),
     path('registerPage', registerPage, name='registerPage'),
+    path('logoutUser', logoutUser, name='logoutUser'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

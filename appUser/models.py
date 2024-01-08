@@ -41,10 +41,11 @@ class Userinfo(models.Model):
    
    
 class Usermy(models.Model):
-   user = models.OneToOneField(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
+   user = models.OneToOneField(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE, related_name="user2",primary_key=True)
    tel = models.CharField(("Telefon"), max_length=50, default="-")
    address = models.TextField(("Adres"), default="-", blank=True)
    packed = models.ForeignKey(Packed, verbose_name=("Pakedi"), on_delete=models.CASCADE, default=0)
+   user_active = models.CharField(("Kullanıcı Doğrulama Linki"), max_length=50, default="123") 
    
    def __str__(self) -> str:
       return self.user.username

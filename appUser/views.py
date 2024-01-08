@@ -3,6 +3,10 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from appUser.models import *
+from django.core.mail import send_mail
+from netflix5haziran.settings import EMAIL_HOST_USER
+from django.utils.crypto import get_random_string
+
 
 def passwordCheck(request, password):
    if len(password)>6:
@@ -157,6 +161,8 @@ def loginPage(request):
    return render(request, 'user/login.html', context)
 
 def registerPage(request):
+
+   print(Usermy.objects.get(user__username="berkay"))
    
    if request.method == "POST":
       fname = request.POST.get("fname")
@@ -172,10 +178,25 @@ def registerPage(request):
          if password1 == password2:
             if not User.objects.filter(username=username).exists():
                if not User.objects.filter(email=email).exists():
-
+                  randomlink = get_random_string(44)
+                  emaillink = "http://"+request.get_host()+"/emailactive/"+randomlink
+                  
                   user = User.objects.create_user(username=username, password=password1, email=email,first_name=fname, last_name=lname )
+                  user.is_active = False
                   user.save()
-                  messages.success(request, "Kaydınız başarıyla oluşturuldu...")
+                  # ============================
+                  # usermy = Usermy.objects.get(user__username= user.username)
+                  # usermy.save()
+                  
+                  send_mail(
+                     "Netflix Email'inizi Onaylayın",
+                     f"Lütfen email hesabınızı onaylayınız: {emaillink}",
+                     EMAIL_HOST_USER,
+                     [email],
+                     fail_silently=False,
+                  )
+                  
+                  messages.success(request, "Kaydınız başarıyla oluşturuldu... Emailinizi onaylayınız")
                   return redirect("loginPage")
                else:
                   messages.error(request, "Bu email zaten kullanılıyor !!")
@@ -188,3 +209,19 @@ def registerPage(request):
                   
    context = {}
    return render(request, 'user/register.html', context)
+
+def emailActive(request,elink):
+
+   if Usermy.objects.filter(user_active = elink).exists():
+      myuser = Usermy.objects.get(user_active = elink)
+      myuser.user.is_active = True
+      myuser.user.save()
+      messages.success(request, "Emailiniz başarıyla onaylandı.")
+      
+   return redirect("loginPage")
+
+   
+
+def logoutUser(request):
+   logout(request)
+   return redirect("indexPage")
