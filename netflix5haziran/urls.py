@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # email
     path('emailsend', emailSendPage, name='emailSendPage'),
+    # path('usermySave/<username>/<randomlink>', usermySave, name='usermySave'),
+    
     path('emailactive/<elink>', emailActive, name='emailActive'),
 
     

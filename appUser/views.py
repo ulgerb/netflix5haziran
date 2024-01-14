@@ -161,8 +161,6 @@ def loginPage(request):
    return render(request, 'user/login.html', context)
 
 def registerPage(request):
-
-   print(Usermy.objects.get(user__username="berkay"))
    
    if request.method == "POST":
       fname = request.POST.get("fname")
@@ -184,10 +182,18 @@ def registerPage(request):
                   user = User.objects.create_user(username=username, password=password1, email=email,first_name=fname, last_name=lname )
                   user.is_active = False
                   user.save()
-                  # ============================
-                  # usermy = Usermy.objects.get(user__username= user.username)
-                  # usermy.save()
+
+                  packed = Packed.objects.get(slug="normal-paket")
+                  print("packed === ",packed)
+                  usermy = Usermy(user=user, user_active = randomlink, packed=packed)
+                  usermy.save()
+
                   
+                  
+                  # request.user.user2.user_active = randomlink
+                  # request.user.user2.save()
+                  
+                  # ============================
                   send_mail(
                      "Netflix Email'inizi Onaylayın",
                      f"Lütfen email hesabınızı onaylayınız: {emaillink}",
@@ -198,6 +204,7 @@ def registerPage(request):
                   
                   messages.success(request, "Kaydınız başarıyla oluşturuldu... Emailinizi onaylayınız")
                   return redirect("loginPage")
+                  # return redirect("usermySave", username, randomlink)
                else:
                   messages.error(request, "Bu email zaten kullanılıyor !!")
             else:
@@ -209,6 +216,13 @@ def registerPage(request):
                   
    context = {}
    return render(request, 'user/register.html', context)
+
+# def usermySave(request, username,randomlink):
+#    user = User.objects.get(username=username)
+#    user.user2.user_active = randomlink
+#    user.user2.save()
+   
+#    return redirect("loginPage")
 
 def emailActive(request,elink):
 
