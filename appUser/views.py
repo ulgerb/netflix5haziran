@@ -69,7 +69,28 @@ def profileBrowse(request, pid):
    profile.save()
    return redirect("browsePage2")
    
+
+# PAKETLER
+def packedPage(request):
+   if request.user.usermy.packed.slug != "normal-paket":
+      return redirect("profilePage")
    
+   packed_list = Packed.objects.all().exclude(slug="normal-paket")
+
+   if request.method == "POST":
+      submit = request.POST.get("submit")
+      for packed in packed_list.all():
+         if submit == packed.slug:
+            request.user.usermy.packed = packed
+            request.user.usermy.save()
+            return redirect("profilePage")
+      
+   
+   context = {
+      "packed_list":packed_list,
+   }
+   return render(request, "packed.html", context)
+
 
 def hesapPage(request):
    profile = Profile.objects.get(user=request.user, islogin=True)
@@ -151,7 +172,7 @@ def loginPage(request):
       if user is not None:
          login(request, user)
          messages.success(request, "Girişiniz Yapıldı...")
-         return redirect("profilePage")
+         return redirect("packedPage")
       else:
          messages.error(request, "Kullanıcı adı veya şifre yanlış!!")
          return redirect("loginPage")

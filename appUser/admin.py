@@ -14,7 +14,7 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Packed)
 class PackedAdmin(admin.ModelAdmin):
 
-   list_display = ('title', 'price','pre','spor','sinema','slug')
+   list_display = ('title', 'price','pre','spor','sinema','slug','id')
  
    
 # @admin.register(Userinfo)

@@ -26,9 +26,7 @@ urlpatterns = [
     # email
     path('emailsend', emailSendPage, name='emailSendPage'),
     # path('usermySave/<username>/<randomlink>', usermySave, name='usermySave'),
-    
     path('emailactive/<elink>', emailActive, name='emailActive'),
-
     
     path('', indexPage, name='indexPage'),
     path('browsePage/<pid>', browsePage, name='browsePage'),
@@ -36,6 +34,7 @@ urlpatterns = [
     path('profilePage', profilePage, name='profilePage'),
     path('profileDelete/<pid>', profileDelete, name='profileDelete'), # Profile Delete
     path('profileBrowse/<pid>', profileBrowse, name='profileBrowse'), # Profile Browse
+    path('packedPage', packedPage, name='packedPage'),
     path('hesapPage', hesapPage, name='hesapPage'),
     path('videoPage', videoPage, name='videoPage'),
     # USER

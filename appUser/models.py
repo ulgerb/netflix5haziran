@@ -44,7 +44,7 @@ class Usermy(models.Model):
    user = models.OneToOneField(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
    tel = models.CharField(("Telefon"), max_length=50, default="-")
    address = models.TextField(("Adres"), default="-", blank=True)
-   packed = models.ForeignKey(Packed, verbose_name=("Pakedi"), on_delete=models.CASCADE, default=0)
+   packed = models.ForeignKey(Packed, verbose_name=("Pakedi"), on_delete=models.CASCADE, default=1)
    user_active = models.CharField(("Kullanıcı Doğrulama Linki"), max_length=50) 
    
    def __str__(self) -> str:

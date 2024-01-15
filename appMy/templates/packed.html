@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block nonheader %}
+<nav class="navbar">
+   <div class="container">
+      <a href="/" class="navbar-brand">
+         <img src="{% static 'img/netflix_logo.png' %}" alt="">
+      </a>
+   </div>
+</nav>
+
+<div class="container">
+   <div class="my-5">
+      <div class="row">
+         
+         {% for i in packed_list %}
+         <div class="col-3">
+            <div class="card text-light" style="background-color: rgb(24, 0, 0);">
+               <div class="card-body rounded-3">
+                  <h5 class="card-title">{{ i.title }}</h5>
+               </div>
+               <ul class="list-group list-group-light list-group-small">
+                  <li class="list-group-item px-4 {% if i.pre %}text-success{% else %}text-danger{% endif %}"><i class="fas fa-check"></i> Sınırsız Netflix Videoları</li>
+                  <li class="list-group-item px-4 {% if i.spor %}text-success{% else %}text-danger{% endif %}"><i class="fas fa-check"></i> Sınırsız Spor İzle</li>
+                  <li class="list-group-item px-4 {% if i.sinema %}text-success{% else %}text-danger{% endif %}"><i class="fas fa-check"></i> Sınırsız Sinemaya Düşenler</li>
+               </ul>
+               <div class="card-body">
+                  <form method="POST">
+                     {% csrf_token %}
+                     <button type="submit" name="submit" value="{{ i.slug }}" class="btn btn-success">Satın al</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+            
+         
+      </div>
+   </div>
+</div>
+   
+{% endblock nonheader %}
+   
